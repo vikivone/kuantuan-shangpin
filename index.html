@@ -174,10 +174,9 @@
 <body>
 
 <header class="hero">
-  <div class="brand"><span class="dot"></span>快团社群 · 好物集市</div>
+  <div class="brand"><span class="dot"></span>白花钱小卖部</div>
   <h1>今日好物精选</h1>
-  <div class="sub" id="dateLine">每日新鲜到货，点开即可下单</div>
-  <div class="stat" id="statLine">今日上新 <b>0</b> 款</div>
+  <div class="sub">每日新鲜到货，点开即可下单</div>
 </header>
 
 <!-- ===== 精选专区：重点商品前10，可换一批 ===== -->
@@ -262,13 +261,11 @@ function autoCat(name, manual){
 PRODUCTS.forEach(p=>{ p._cat = autoCat(p.name, p.cat); });
 
 /* =====================================================
-   排序选项：综合 / 上新 / 价格升 / 价格降 / 只看精选
+   排序选项：综合 / 上新 / 只看精选
    ===================================================== */
 const SORTS = [
   { id:"smart",  label:"综合排序" },
   { id:"new",    label:"上新优先" },
-  { id:"asc",    label:"价格从低到高" },
-  { id:"desc",   label:"价格从高到低" },
   { id:"focus",  label:"只看精选" },
 ];
 
@@ -280,7 +277,6 @@ const $filter = document.getElementById('filter');
 const $sortRow = document.getElementById('sortRow');
 const $note = document.getElementById('resultNote');
 const $grid = document.getElementById('grid');
-const $stat = document.getElementById('statLine');
 const $toast = document.getElementById('toast');
 
 let activeCat = '全部';
@@ -348,8 +344,6 @@ function applySort(list){
   const a = list.slice();
   switch(activeSort){
     case 'new':   a.sort((x,y)=> (y.tag==='new')-(x.tag==='new')); break;
-    case 'asc':   a.sort((x,y)=>x.price-y.price); break;
-    case 'desc':  a.sort((x,y)=>y.price-x.price); break;
     case 'focus': return a.filter(p=>p.focus); // 只看精选
     case 'smart':
       a.sort((x,y)=>{
@@ -367,9 +361,7 @@ function renderFilter(){
   $filter.innerHTML = ALL_CATS.map(c=>`<span class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</span>`).join('');
 }
 function renderSort(){
-  $sortRow.innerHTML = SORTS.map(s=>`<span class="sort ${s.id===activeSort?'active':''}" data-sort="${s.id}">
-    ${s.label}${s.id==='asc'||s.id==='desc'?' <span class="arw">'+(s.id==='asc'?'↑':'↓')+'</span>':''}
-  </span>`).join('');
+  $sortRow.innerHTML = SORTS.map(s=>`<span class="sort ${s.id===activeSort?'active':''}" data-sort="${s.id}">${s.label}</span>`).join('');
 }
 function renderGrid(){
   /* 先按分类筛选 */
@@ -380,8 +372,6 @@ function renderGrid(){
     list = list.filter(p=> p.name.toLowerCase().indexOf(kw) > -1 || p.desc.toLowerCase().indexOf(kw) > -1);
   }
   list = applySort(list);
-
-  $stat.innerHTML = `今日上新 <b>${PRODUCTS.filter(p=>p.tag==='new').length}</b> 款`;
 
   const cName = activeCat==='全部' ? '全部商品' : activeCat;
   const sName = SORTS.find(s=>s.id===activeSort).label;
@@ -452,9 +442,6 @@ document.getElementById('loadMore').addEventListener('click', ()=>{
   visibleCount += PAGE_SIZE;
   renderGrid();
 });
-
-/* 日期 */
-(function(){ const now=new Date(); const days=['日','一','二','三','四','五','六']; document.getElementById('dateLine').textContent=`今天是 ${now.getMonth()+1}月${now.getDate()}日 星期${days[now.getDay()]}`; })();
 
 renderFeatured();
 renderFilter();
