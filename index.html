@@ -31,6 +31,7 @@
     padding-bottom:76px;
   }
 
+  /* ===== 顶部品牌区 ===== */
   header.hero{
     position:relative;
     background:linear-gradient(160deg,#2F9E63 0%,#1F7A4A 60%,#175E39 100%);
@@ -47,6 +48,7 @@
   .hero .stat{position:relative;z-index:1;display:inline-flex;align-items:center;gap:6px;margin-top:14px;background:rgba(255,255,255,.18);padding:6px 14px;border-radius:100px;font-size:13px;font-weight:600}
   .hero .stat b{color:#FFD24A}
 
+  /* ===== 精选专区 ===== */
   section.featured{
     padding:16px 0 4px;
   }
@@ -85,6 +87,7 @@
   .feat-card .price small{font-size:11px}
   .feat-card .price .old{font-size:11px;font-weight:400;color:var(--muted);text-decoration:line-through;margin-left:3px}
 
+  /* ===== 分类 + 排序栏 ===== */
   nav.bar{
     position:sticky;top:0;z-index:20;
     background:var(--bg);
@@ -107,6 +110,7 @@
   .sort.active{color:var(--accent);font-weight:700;background:var(--soft)}
   .sort .arw{font-size:11px}
 
+  /* ===== 商品网格 ===== */
   .result-note{padding:12px 16px 2px;font-size:13px;color:var(--muted)}
   .result-note b{color:var(--ink)}
   .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:8px 14px 20px}
@@ -134,6 +138,7 @@
   .toast{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(43,38,34,.9);color:#fff;font-size:14px;padding:14px 22px;border-radius:12px;z-index:99;opacity:0;pointer-events:none;transition:opacity .25s;max-width:80%;text-align:center}
   .toast.show{opacity:1}
 
+  /* ===== 搜索栏 ===== */
   .search-wrap{padding:12px 14px 6px;position:sticky;top:0;z-index:25;background:var(--bg)}
   .search-box{
     display:flex;align-items:center;gap:8px;
@@ -148,6 +153,7 @@
   .search-box input::placeholder{color:var(--muted)}
   .search-clear{font-size:13px;color:var(--accent);cursor:pointer;flex:0 0 auto;display:none}
 
+  /* ===== 加载更多 ===== */
   .load-more{
     display:block;width:calc(100% - 28px);margin:6px 14px 24px;
     padding:12px;border-radius:100px;
@@ -174,6 +180,7 @@
   <div class="stat" id="statLine">今日上新 <b>0</b> 款</div>
 </header>
 
+<!-- ===== 精选专区：重点商品前10，可换一批 ===== -->
 <section class="featured" id="featuredSec">
   <div class="featured-head">
     <div class="ttl"><span class="ic">★</span>精选好物<small>重点推荐</small></div>
@@ -185,6 +192,7 @@
   <div class="feat-scroll" id="featScroll"></div>
 </section>
 
+<!-- ===== 搜索栏 ===== -->
 <div class="search-wrap">
   <div class="search-box">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
@@ -193,6 +201,7 @@
   </div>
 </div>
 
+<!-- ===== 分类 + 排序 ===== -->
 <nav class="bar">
   <div class="scroll-row cat-row" id="filter"></div>
   <div class="sort-row" id="sortRow"></div>
@@ -207,10 +216,30 @@
 <div class="toast" id="toast"></div>
 
 <script>
+/* =====================================================
+   ★ 商品数据维护区 —— 每天上新只需修改这个数组 ★
+   每个商品 = 一个对象 { ... }，字段说明：
+     name  : 商品名称（必填；会自动按名称归类，无需手写分类）
+     desc  : 一句卖点/规格（可留空 ""）
+     price : 现价，数字（如 39.9）
+     old   : 原价，数字；没有则 0
+     focus : true = 重点商品（会进首页「精选好物」专区）；非重点可省略
+     tag   : 角标，"new"今日上新 / "hot"热卖 / "sale"特惠 / 不需要可留 ""
+     img   : 商品图片地址（贴你的快团团商品图 URL）
+     link  : 快团团购买链接（点卡片即跳转）
+   自动分类：系统按商品名称匹配词库归类到
+     女装 / 男装 / 童装 / 食品 / 水果 / 家居日用 / 美妆个护 / 其他
+   若某商品要强制指定分类，可加 cat:"女装" 覆盖。
+   ===================================================== */
+
 const PRODUCTS = [
   { name:"100%美丽诺羊毛毛衣", desc:"多色可选 · 柔软亲肤不扎", price:148, old:0, focus:true, tag:"new", img:"https://aka.doubaocdn.com/s/h7c8kDaUiV", link:"https://ktt.pinduoduo.com/t/PyS2lN3Dl8" },
+  { name:"宥小宛 奶油卷系列儿童居家服", desc:"企鹅/猫咪印花 · 新疆长绒棉 · 210G克重", price:29.9, priceMax:169, old:0, focus:true, tag:"new", img:"https://aka.doubaocdn.com/s/Zt5yO7yn2z", link:"https://ktt.pinduoduo.com/t/6qfe9RxVoW" },
 ];
 
+/* =====================================================
+   自动分类词库 —— 按商品名称匹配
+   ===================================================== */
 const CAT_RULES = [
   { cat:"童装",   words:["童装","儿童","宝宝","婴儿","女童","男童","童鞋","kids","亲子","居家服"] },
   { cat:"女装",   words:["女装","连衣裙","半身裙","衬衫女","裙子","女裤","通勤","卫衣女","t恤女","毛衣","针织","开衫","毛衫"] },
@@ -229,8 +258,12 @@ function autoCat(name, manual){
   }
   return OTHER;
 }
+/* 给每条商品补上自动分类 */
 PRODUCTS.forEach(p=>{ p._cat = autoCat(p.name, p.cat); });
 
+/* =====================================================
+   排序选项：综合 / 上新 / 价格升 / 价格降 / 只看精选
+   ===================================================== */
 const SORTS = [
   { id:"smart",  label:"综合排序" },
   { id:"new",    label:"上新优先" },
@@ -255,8 +288,9 @@ let activeSort = 'smart';
 let featuredList = [];
 let searchText = '';
 let visibleCount = 0;
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 20;   /* 每次加载更多展示的条数，500个商品按需分批渲染 */
 
+/* 全部分类（自动从数据里收集） */
 const ALL_CATS = ["全部", ...Array.from(new Set(PRODUCTS.map(p=>p._cat)))];
 
 function fmtPrice(n){ return Math.round(n*10)/10; }
@@ -284,6 +318,7 @@ function cardHTML(p, cls){
     </div>`;
 }
 
+/* ---- 精选专区：重点商品随机前10 + 换一批 ---- */
 const FOCUS_MAX = 10;
 function shuffleArr(arr){
   const a = arr.slice();
@@ -308,13 +343,14 @@ function renderFeatured(){
     </div>`).join('');
 }
 
+/* ---- 排序 ---- */
 function applySort(list){
   const a = list.slice();
   switch(activeSort){
     case 'new':   a.sort((x,y)=> (y.tag==='new')-(x.tag==='new')); break;
     case 'asc':   a.sort((x,y)=>x.price-y.price); break;
     case 'desc':  a.sort((x,y)=>y.price-x.price); break;
-    case 'focus': return a.filter(p=>p.focus);
+    case 'focus': return a.filter(p=>p.focus); // 只看精选
     case 'smart':
       a.sort((x,y)=>{
         const sx = (x.focus?1:0)+(x.tag==='new'?0.4:0)+(x.tag==='sale'?0.2:0);
@@ -326,6 +362,7 @@ function applySort(list){
   return a;
 }
 
+/* ---- 渲染 ---- */
 function renderFilter(){
   $filter.innerHTML = ALL_CATS.map(c=>`<span class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</span>`).join('');
 }
@@ -335,7 +372,9 @@ function renderSort(){
   </span>`).join('');
 }
 function renderGrid(){
+  /* 先按分类筛选 */
   let list = PRODUCTS.filter(p=> activeCat==='全部' ? true : p._cat===activeCat);
+  /* 再按搜索词过滤（名称模糊匹配） */
   if(searchText){
     const kw = searchText.trim().toLowerCase();
     list = list.filter(p=> p.name.toLowerCase().indexOf(kw) > -1 || p.desc.toLowerCase().indexOf(kw) > -1);
@@ -358,9 +397,11 @@ function renderGrid(){
     return;
   }
 
+  /* 分页渲染：只显示前 visibleCount 条，避免500个一次渲染卡顿 */
   const shown = list.slice(0, visibleCount);
   $grid.innerHTML = shown.map(p=>cardHTML(p)).join('');
 
+  /* 加载更多按钮 */
   const lm = document.getElementById('loadMore');
   if(lm){
     if(visibleCount >= list.length){
@@ -381,6 +422,7 @@ function openProduct(i){
   else { showToast('该商品已上架，链接待补充 · 快去快团团发布吧'); }
 }
 
+/* ---- 事件 ---- */
 $filter.addEventListener('click', e=>{
   const c = e.target.closest('.chip'); if(!c) return;
   activeCat = c.dataset.cat; renderFilter(); renderGrid();
@@ -393,6 +435,7 @@ $grid.addEventListener('click', e=>{ const c=e.target.closest('.card'); if(c) op
 $featScroll.addEventListener('click', e=>{ const c=e.target.closest('.feat-card'); if(c) openProduct(Number(c.dataset.i)); });
 document.getElementById('shuffleBtn').addEventListener('click', ()=>{ renderFeatured(); showToast('已为你换了 10 款精选'); });
 
+/* ---- 搜索 ---- */
 const $searchInput = document.getElementById('searchInput');
 const $searchClear = document.getElementById('searchClear');
 function onSearch(){
@@ -404,11 +447,13 @@ function onSearch(){
 $searchInput.addEventListener('input', onSearch);
 $searchClear.addEventListener('click', ()=>{ $searchInput.value=''; onSearch(); $searchInput.focus(); });
 
+/* ---- 加载更多 ---- */
 document.getElementById('loadMore').addEventListener('click', ()=>{
   visibleCount += PAGE_SIZE;
   renderGrid();
 });
 
+/* 日期 */
 (function(){ const now=new Date(); const days=['日','一','二','三','四','五','六']; document.getElementById('dateLine').textContent=`今天是 ${now.getMonth()+1}月${now.getDate()}日 星期${days[now.getDay()]}`; })();
 
 renderFeatured();
