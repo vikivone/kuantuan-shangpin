@@ -243,6 +243,18 @@ const PRODUCTS = [
   { name:"M.AL 婴儿连体衣", desc:"进口面料 · 火遍宝妈 · 断码补货15-20天", price:58, priceMax:308, old:0, focus:true, tag:"new", cat:"母婴", img:"https://aka.doubaocdn.com/s/4VbhmnDWSc", link:"https://ktt.pinduoduo.com/t/IvGUIBvFz1" },
   { name:"王牌真丝羊毛针织衫", desc:"13色可选 · 单穿内搭都绝 · 韩范", price:89, old:0, focus:true, tag:"new", img:"https://aka.doubaocdn.com/s/vXwBIcMttX", link:"https://ktt.pinduoduo.com/t/P5Fv3LOrgU" },
   { name:"汪汪队立大功儿童连帽卫衣", desc:"PAW英雄小队 · 秋日童趣 · 宝宝本命", price:35.8, old:0, focus:false, tag:"new", cat:"童装", img:"https://aka.doubaocdn.com/s/5qw8KeYnfG", link:"https://ktt.pinduoduo.com/t/Ro19CU6X5D" },
+  { name:"patadog蓝狗 秋日限定潮牌卫衣", desc:"实穿度满分 · 胸前潮酷印花 · 秋冬本命卫衣", price:49.9, old:0, focus:false, tag:"new", cat:"童装", img:"https://aka.doubaocdn.com/s/EzCteSGPap", link:"https://ktt.pinduoduo.com/t/19zdsgPcmH" },
+  { name:"小高领余料衣物合集", desc:"MB余料 · 花色已断码手慢无 · 满100减5", price:79, priceMax:89, old:0, focus:false, tag:"sale", img:"https://aka.doubaocdn.com/s/EukdEe53YS", link:"https://ktt.pinduoduo.com/t/hb84OxSmiQ" },
+  { name:"新疆恐龙蛋李子", desc:"一年一季限定鲜果 · 可食率98%糖度爆表 · 爆汁红宝石", price:39.9, priceMax:78, old:0, focus:false, tag:"new", cat:"水果", img:"https://aka.doubaocdn.com/s/Wu2BurIYcK", link:"https://ktt.pinduoduo.com/t/s4jfp2THF8" },
+  { name:"M.AL 机能幼儿园过冬神裤", desc:"软壳加绒 · 山系机能范 · 已提单1-1062", price:89.9, priceMax:99, old:0, focus:true, tag:"new", cat:"童装", img:"https://aka.doubaocdn.com/s/UVnnEeB1v5", link:"https://ktt.pinduoduo.com/t/Hpuh487sZo" },
+  { name:"SSR 有机棉儿童家居服", desc:"四针六线无骨缝工艺 · 有机棉系列 · 上新福利价", price:39.9, old:0, focus:false, tag:"new", cat:"童装", img:"https://aka.doubaocdn.com/s/qKSlpu8tzH", link:"https://ktt.pinduoduo.com/t/ntV8fwVoiC" },
+  { name:"华歌尔美带聚拢文胸", desc:"纯原华歌尔 · 官网900+ · 果冻聚拢美胸带", price:69, old:0, focus:false, tag:"new", cat:"女装", img:"https://aka.doubaocdn.com/s/6unjIczlz5", link:"https://ktt.pinduoduo.com/t/v5V4blHvst" },
+  { name:"喜乐酱恒温夹棉分腿睡袋", desc:"仿生母体胎设计 · 防踢被恒温黑科技 · 宝宝安稳好眠", price:99, priceMax:159, old:0, focus:true, tag:"new", cat:"母婴", img:"https://aka.doubaocdn.com/s/q3psiy9ChJ", link:"https://ktt.pinduoduo.com/t/etl5piM2Yt" },
+  { name:"M.AL 北欧风儿童风衣", desc:"25色可选 · 罗纹领口 · 童年必备可爱穿搭", price:88, priceMax:178, old:0, focus:true, tag:"new", cat:"童装", img:"https://aka.doubaocdn.com/s/V36EKITkB8", link:"https://ktt.pinduoduo.com/t/PlQSrvg58F" },
+  { name:"老翁记水城羊肉粉&花溪牛肉粉", desc:"贵州团 · 4袋到手59.9 · 在家吃贵州当地味", price:19.9, priceMax:59.9, old:0, focus:true, tag:"new", cat:"食品", img:"https://aka.doubaocdn.com/s/Vv5IjtB3j3", link:"https://ktt.pinduoduo.com/t/3Kxf2hzIN5" },
+  { name:"良尖10A抗菌静音防滑棉拖鞋", desc:"限时限量 · 入秋居家第一双 · 如踏云般温柔", price:39.9, old:0, focus:false, tag:"new", cat:"家居日用", img:"https://aka.doubaocdn.com/s/Jcl3lKlGRe", link:"https://ktt.pinduoduo.com/t/Me2ZPuH6kY" },
+  { name:"中缝加绒羊毛云朵糯米裤", desc:"独家定制 · 去年卖爆2w+ · 被催着返团", price:99, old:0, focus:true, tag:"new", img:"https://aka.doubaocdn.com/s/78QxXNwZfT", link:"https://ktt.pinduoduo.com/t/q8kWVhNmIe" },
+  { name:"BLUEDOG 蓝狗糖果奥利绒软软卫裤", desc:"冬款第一波 · 母婴A类软糯 · 靠谱团购高品质", price:69, old:0, focus:false, tag:"new", cat:"童装", img:"https://aka.doubaocdn.com/s/AQ0CzwybCe", link:"https://ktt.pinduoduo.com/t/fQPPBj3ij1" },
 ];
 
 /* =====================================================
@@ -270,7 +282,7 @@ function autoCat(name, manual){
 PRODUCTS.forEach(p=>{ p._cat = autoCat(p.name, p.cat); });
 
 /* =====================================================
-   排序选项：综合 / 上新 / 只看精选
+   排序选项：综合 / 上新 / 价格升 / 价格降 / 只看精选
    ===================================================== */
 const SORTS = [
   { id:"smart",  label:"综合排序" },
@@ -353,6 +365,8 @@ function applySort(list){
   const a = list.slice();
   switch(activeSort){
     case 'new':   a.sort((x,y)=> (y.tag==='new')-(x.tag==='new')); break;
+    case 'asc':   a.sort((x,y)=>x.price-y.price); break;
+    case 'desc':  a.sort((x,y)=>y.price-x.price); break;
     case 'focus': return a.filter(p=>p.focus); // 只看精选
     case 'smart':
       a.sort((x,y)=>{
@@ -370,7 +384,9 @@ function renderFilter(){
   $filter.innerHTML = ALL_CATS.map(c=>`<span class="chip ${c===activeCat?'active':''}" data-cat="${c}">${c}</span>`).join('');
 }
 function renderSort(){
-  $sortRow.innerHTML = SORTS.map(s=>`<span class="sort ${s.id===activeSort?'active':''}" data-sort="${s.id}">${s.label}</span>`).join('');
+  $sortRow.innerHTML = SORTS.map(s=>`<span class="sort ${s.id===activeSort?'active':''}" data-sort="${s.id}">
+    ${s.label}${s.id==='asc'||s.id==='desc'?' <span class="arw">'+(s.id==='asc'?'↑':'↓')+'</span>':''}
+  </span>`).join('');
 }
 function renderGrid(){
   /* 先按分类筛选 */
